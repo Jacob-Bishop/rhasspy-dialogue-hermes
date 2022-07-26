@@ -189,7 +189,7 @@ class DialogueHermesMqtt(HermesClient):
         self.global_wake_lock = asyncio.Lock()
         self.group_wake_lock: typing.Dict[str, asyncio.Lock] = {}
 
-        # Whether to send intent not recognized on recognition failure for 
+        # Whether to send intent not recognized on recognition failure for
         # sessions started with a hotword
         self.hotword_send_not_recognized = hotword_send_not_recognized
 

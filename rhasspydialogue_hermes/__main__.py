@@ -60,6 +60,7 @@ def main():
     )
     parser.add_argument(
         "--hotword-send-not-recognized",
+        action='store_true',
         help="If flag set, sessions started from hotword triggers will send a not-recognized message on intent recognition failure"
     )
 
@@ -89,7 +90,7 @@ def main():
         group_separator=args.group_separator,
         min_asr_confidence=args.min_asr_confidence,
         say_chars_per_second=args.say_chars_per_second,
-        hotword_send_not_recognized=args.hotword_send_not_recognized is not None,
+        hotword_send_not_recognized=args.hotword_send_not_recognized,
     )
 
     _LOGGER.debug("Connecting to %s:%s", args.host, args.port)

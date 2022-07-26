@@ -36,6 +36,7 @@ usage: rhasspy-dialogue-hermes [-h] [--wakeword-id WAKEWORD_ID]
                                [--tls-version TLS_VERSION]
                                [--tls-ciphers TLS_CIPHERS] [--site-id SITE_ID]
                                [--debug] [--log-format LOG_FORMAT]
+			       [--hotword-send-not-recognized]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -67,4 +68,8 @@ optional arguments:
   --debug               Print DEBUG messages to the console
   --log-format LOG_FORMAT
                         Python logger format
+  --hotword-send-not-recognized
+                        Send message on intent recognition failure from
+			hotword session.
+		 
 ```

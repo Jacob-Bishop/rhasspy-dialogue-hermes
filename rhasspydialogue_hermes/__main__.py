@@ -58,6 +58,10 @@ def main():
         default=33.0,
         help="Number of characters to per second of speech for estimating TTS timeout",
     )
+    parser.add_argument(
+        "--hotword-send-not-recognized",
+        help="If flag set, sessions started from hotword triggers will send a not-recognized message on intent recognition failure"
+    )
 
     hermes_cli.add_hermes_args(parser)
     args = parser.parse_args()
@@ -85,6 +89,7 @@ def main():
         group_separator=args.group_separator,
         min_asr_confidence=args.min_asr_confidence,
         say_chars_per_second=args.say_chars_per_second,
+        hotword_send_not_recognized=args.hotword_send_not_recognized is not None,
     )
 
     _LOGGER.debug("Connecting to %s:%s", args.host, args.port)

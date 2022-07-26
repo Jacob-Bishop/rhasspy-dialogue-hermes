@@ -131,6 +131,8 @@ class DialogueHermesMqtt(HermesClient):
         group_separator: typing.Optional[str] = None,
         min_asr_confidence: typing.Optional[float] = None,
         say_chars_per_second: float = 33.0,
+        sound_suffixes: typing.Optional[typing.Set[str]] = None,
+        hotword_send_not_recognized: bool = False,
     ):
         super().__init__("rhasspydialogue_hermes", client, site_ids=site_ids)
 
@@ -186,6 +188,10 @@ class DialogueHermesMqtt(HermesClient):
         # Locks by group id used to prevent multiple sessions from starting at the same time
         self.global_wake_lock = asyncio.Lock()
         self.group_wake_lock: typing.Dict[str, asyncio.Lock] = {}
+
+        # Whether to send intent not recognized on recognition failure for 
+        # sessions started with a hotword
+        self.hotword_send_not_recognized = hotword_send_not_recognized
 
     # -------------------------------------------------------------------------
 
@@ -720,12 +726,16 @@ class DialogueHermesMqtt(HermesClient):
                 start_session=DialogueStartSession(
                     site_id=detected.site_id,
                     custom_data=wakeword_id,
-                    init=DialogueAction(can_be_enqueued=False),
+                    init=DialogueAction(
+                        can_be_enqueued=False,
+                        send_intent_not_recognized=self.hotword_send_not_recognized,
+                    ),
                 ),
                 detected=detected,
                 wakeword_id=wakeword_id,
                 lang=detected.lang,
                 group_id=group_id,
+                send_intent_not_recognized=self.hotword_send_not_recognized,
             )
 
             # Play wake sound before ASR starts listening
